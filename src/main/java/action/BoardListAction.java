@@ -6,10 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 import vo.ActionForward;
 
 public class BoardListAction implements Action {
+
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
-		System.out.println("BoardListAction");
 		
 		ActionForward forward = null;
 		

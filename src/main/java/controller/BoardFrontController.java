@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.BoardListAction;
+import action.BoardWriteProAction;
 import vo.ActionForward;
 
 
@@ -41,6 +43,37 @@ public class BoardFrontController extends HttpServlet {
 			forward = new ActionForward();
 			forward.setPath("board/qna_board_write.jsp");
 			forward.setRedirect(false);
+		} else if(command.equals("/BoardWritePro.bo")) {
+			System.out.println("글쓰기 로직");
+			// 글쓰기 작업 완료했다고 가정
+			// => 글목록 표시를 위한 BoardList.bo 서블릿 주소 요청하여 포워딩
+			// => 새로운 요청에 의한 서블릿 주소를 변경해야하므로 Redirect 방식으로 포워딩
+//			forward = new ActionForward();
+//			forward.setPath("BoardList.bo");
+//			forward.setRedirect(true);
+			// ------------------------------
+			// 글쓰기 비즈니스 로직 수행을 위한 컨트롤러인 Action 클래스로 이동하여
+			// Service -> DAO 클래스를 거쳐 비즈니스 로직을 수행한 후
+			// 최종적으로 Action 클래스에서 포워딩 정보를 저장한 후 ActionForward 객체를 리턴
+			try {
+				action = new BoardWriteProAction();
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+		} else if(command.equals("/BoardList.bo")) {
+			// 글목록 조회 비즈니스 로직 수행을 위한 컨트롤러인 Action 클래스로 이동하여
+			// Service -> DAO 클래스 비즈니스 로직을 수행한 후
+			// 최종적으로 Action 클래스에서 포워딩 정보를 저장한 후 ActionForward 객체를 리턴
+			try {
+				action = new BoardListAction();
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 		
 		// --------------------------------------------------------
